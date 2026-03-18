@@ -1,7 +1,7 @@
 # Dockerfile for containerized Claude Code
 #
 #   docker build --progress=plain -t claude .
-#   docker run -it --rm -v ${HOME}/.claude:/home/agent/.claude -v ${PWD}:/workspace:rslave -w /workspace -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix:/tmp/.X11-unix claude claude
+#   docker run -it --rm -v ${HOME}/.claude:/home/agent/.claude -v ${PWD}:/workspace:rslave -w /workspace claude claude
 #
 # syntax=docker/dockerfile:1
 
@@ -81,9 +81,9 @@ RUN apt-get update -qq \
 # NodeJS/Python packages
 ##
 # https://www.npmjs.com/package/@anthropic-ai/claude-code?activeTab=versions
-ARG CLAUDE_VERSION=2.1.52
+ARG CLAUDE_VERSION=2.1.78
 # https://github.com/Owloops/claude-powerline/releases
-ARG CLAUDE_POWERLINE_VERSION=1.17.2
+ARG CLAUDE_POWERLINE_VERSION=1.20.1
 # https://github.com/dandavison/delta/releases
 ARG GITDELTA_VERSION=0.18.2
 
@@ -121,7 +121,7 @@ RUN userdel -r bun \
 # https://github.com/SuperClaude-Org/SuperClaude_Framework/releases
 ARG SUPERCLAUDE_VERSION=4.2.0
 # https://github.com/Jeffallan/claude-skills/releases
-ARG CLAUDE_SKILLS_VERSION=0.4.8
+ARG CLAUDE_SKILLS_VERSION=0.4.10
 
     # install superclaude
 RUN curl -sSLo superclaude.tar.gz https://github.com/SuperClaude-Org/SuperClaude_Framework/archive/refs/tags/v${SUPERCLAUDE_VERSION}.tar.gz \
