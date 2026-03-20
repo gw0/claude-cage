@@ -12,7 +12,7 @@
 #     COPY --chown=root:root --chmod=755 ./firewall-deny-outgoing.sh /usr/local/bin/
 #     RUN echo "${USER} ALL=(root) NOPASSWD: /usr/local/bin/firewall-deny-outgoing.sh" > /etc/sudoers.d/firewall-deny-outgoing \
 #      && chmod 0440 /etc/sudoers.d/firewall-deny-outgoing
-#   - Add to docker-entrypoint.sh:
+#   - Add to entrypoint.sh:
 #     /usr/local/bin/firewall-deny-outgoing.sh
 #   - Run container with:
 #     --cap-add=NET_ADMIN --cap-add=NET_RAW
