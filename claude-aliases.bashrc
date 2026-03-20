@@ -21,6 +21,6 @@ for profile in ${CLAUDE_PROFILES}; do
     \${CLAUDE_IMAGE} claude \
   "
   alias ${profile}-yolo="${profile} --allow-dangerously-skip-permissions"
-  alias ${profile}-advisor="${profile} --append-system-prompt-file \"/home/agent/.claude-shared/prompts/advisor.md\""
+  alias ${profile}-advisor="${profile} --agent advisor"
 done
 
