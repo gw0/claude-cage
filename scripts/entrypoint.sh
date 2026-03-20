@@ -24,7 +24,6 @@ ln -fsr -t ~/.claude/plugins/marketplaces ~/.claude-shared/plugins-marketplaces/
 
 # Setup local plugins
 claude plugins marketplace add ~/.claude/plugins/marketplaces/local >/dev/null
-echo "${ENABLE_PLUGINS:-}"
 for plugin in ${ENABLE_PLUGINS:-sc}; do
   claude plugins enable "${plugin}@local" >/dev/null
 done
