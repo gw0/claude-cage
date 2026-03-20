@@ -45,7 +45,7 @@ docker run -it --rm \
 
 ## Plugins
 
-Many skills and plugins are re-packaged and pre-installed in the image and available via Claude Code's native plugin system. Use `/plugin` and `/reload-plugins` inside Claude Code to enable or disable them interactively.
+Many skills and plugins are re-packaged and pre-installed in the image and available via Claude Code's native plugin system. Use `/plugin` and `/reload-plugins` inside Claude Code to enable or disable them on-demand.
 
 | Plugin | Source | Content |
 |--------|--------|---------|
@@ -59,10 +59,11 @@ Many skills and plugins are re-packaged and pre-installed in the image and avail
 | `aas-full` | antigravity | all 1,273+ skills |
 | *(33 more aas-* bundles)* | antigravity | 5-8 skills each |
 
-Set `ENABLE_PLUGINS` to a space-separated list of plugin names to select which plugins are enabled at startup (default: `sc cs`):
+Set `ENABLE_PLUGINS` to a space-separated list of plugin names to select which plugins are enabled at startup (default: `sc`):
 
 ```bash
-ENABLE_PLUGINS="sc cs aas-web-wizard" claude1
+export ENABLE_PLUGINS="sc cs aas-web-wizard"
+claude1
 ```
 
 ## Remote dev environment
