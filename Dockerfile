@@ -163,10 +163,10 @@ RUN echo '# Shell customization (gw0)' >> /etc/bash.bashrc \
  && echo 'set ttymouse=' >> /etc/vim/vimrc.local \
  && echo 'set paste' >> /etc/vim/vimrc.local \
  && echo 'set pastetoggle=<F2>' >> /etc/vim/vimrc.local \
- && chmod +x /usr/local/bin/docker-entrypoint.sh \
+ && chmod +x /usr/local/bin/*.sh \
  && chown -R ${USER}:${USER} /usr/local/bun /workspace /home/${USER}
 
 USER ${USER}:${USER}
 WORKDIR /workspace
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/bin/bash"]
