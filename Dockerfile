@@ -5,7 +5,7 @@
 #
 # syntax=docker/dockerfile:1
 
-FROM oven/bun:1.3.7-debian
+FROM oven/bun:1.3.10-debian@sha256:367842b35abbdf23f39e23c71f3a08eee940ff2679a14e08a5afcf4a1436cd89
 
 ##
 # DEB packages
