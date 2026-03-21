@@ -3,9 +3,10 @@
 Run Claude Code in an isolated Docker container with per-profile state, set of pre-installed plugins and skills, and support for remote dev environments. A single shell alias is all it takes.
 
 - **Security isolation**: Non-root user, all capabilities dropped, startup security scans (AgentShield + unicode)
-- **Multi-profile support**: Isolated `~/.claude-<profile>` state per profile, switch accounts without re-login
+- **Multi-profile support**: Per-profile auth state and history in `~/.claude-<profile>`, separate work and personal accounts, mix subscription and API key billing
 - **Plugins and skills**: SuperClaude, claude-skills, codemap, and 33+ antigravity-awesome-skills bundles pre-installed
 - **Remote dev support**: Mutagen bidirectional sync + Docker socket forwarding for remote execution
+- **Minimal by design**: A shell alias script and a Dockerfile, no dependencies beyond Docker, easy to read and modify
 - **Pass-through CLI**: All extra arguments forwarded directly to `claude`
 
 ## Build
@@ -103,7 +104,7 @@ ENABLE_PLUGINS="aas-essentials aas-web-wizard" claude1
 
 ## Env variables
 
-- `ANTHROPIC_API_KEY` — Anthropic API key passed into the container
+- `ANTHROPIC_API_KEY` — Anthropic API key passed into the container, can override a subscription profile with API key billing
 - `CLAUDE_IMAGE` — Docker image to use (default: `ghcr.io/gw0/docker-claude-code:main`)
 - `CLAUDE_PROFILES` — Space-separated profile names for alias generation (default: `claude1 claude2 claudeapi`)
 - `ENABLE_PLUGINS` — Space-separated plugin names to enable at startup (default: `sc codemap`)
