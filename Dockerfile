@@ -90,7 +90,7 @@ ARG CLAUDE_POWERLINE_VERSION=1.20.1
 ARG AGENTSHIELD_VERSION=1.3.0
 # https://github.com/dandavison/delta/releases
 # renovate: datasource=github-releases depName=dandavison/delta
-ARG GITDELTA_VERSION=0.19.0
+ARG GIT_DELTA_VERSION=0.19.0
 
 ENV BUN_INSTALL=/usr/local/bun
 RUN bun install -g \
@@ -101,7 +101,7 @@ RUN bun install -g \
     # install ecc-agentshield
     ecc-agentshield@${AGENTSHIELD_VERSION} \
     # install git-delta
- && curl -sSLo git-delta.deb https://github.com/dandavison/delta/releases/download/${GITDELTA_VERSION}/git-delta_${GITDELTA_VERSION}_amd64.deb \
+ && curl -sSLo git-delta.deb https://github.com/dandavison/delta/releases/download/${GIT_DELTA_VERSION}/git-delta-musl_${GIT_DELTA_VERSION}_amd64.deb \
  && dpkg -i git-delta.deb \
     # print versions
  && claude --version \
