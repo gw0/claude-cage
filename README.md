@@ -1,6 +1,12 @@
 # Containerized Claude Code and AI agents
 
-Docker environment for running Claude Code with isolated AI agents and SuperClaude integration.
+Run Claude Code in an isolated Docker container with per-profile state, set of pre-installed plugins and skills, and support for remote dev environments. A single shell alias is all it takes.
+
+- **Security isolation**: Non-root user, all capabilities dropped, startup security scans (AgentShield + unicode)
+- **Multi-profile support**: Isolated `~/.claude-<profile>` state per profile, switch accounts without re-login
+- **Plugins and skills**: SuperClaude, claude-skills, and 33+ antigravity-awesome-skills bundles pre-installed
+- **Remote dev support**: Mutagen bidirectional sync + Docker socket forwarding for remote execution
+- **Pass-through CLI**: All extra arguments forwarded directly to `claude`
 
 ## Build
 
@@ -23,8 +29,16 @@ source ~/.bashrc
 
 ## Usage
 
+Each profile gets three alias modes:
+
+- `<profile>` — standard interactive mode
+- `<profile>-yolo` — skips tool approval prompts (`--allow-dangerously-skip-permissions`)
+- `<profile>-advisor` — read-only advisory mode, no file writes (`--agent advisor`)
+
+All extra arguments pass through to `claude` directly (e.g. `-p "prompt"`, `--model`).
+
 ```bash
-# with shell integration
+# run interactive mode:
 cd ~/my-project
 claude1
 
@@ -34,7 +48,7 @@ claude2-advisor
 # or yolo/dangerously-skip-permissions mode with prompt:
 claudeapi-yolo -p "Please review latest changes and fix issues"
 
-# manually
+# or manually (expert):
 cd ~/my-project
 docker run -it --rm \
   -v ${HOME}/.claude-claude1:/home/agent/.claude \
@@ -43,9 +57,9 @@ docker run -it --rm \
   ghcr.io/gw0/docker-claude-code:main claude
 ```
 
-## Plugins
+## Plugins and skills
 
-Many skills and plugins are re-packaged and pre-installed in the image and available via Claude Code's native plugin system. Use `/plugin` and `/reload-plugins` inside Claude Code to enable or disable them on-demand.
+Plugins and skills come pre-installed in the image and managed via Claude Code's native plugin system (use `/plugin` and `/reload-plugins` to enable them on-demand, resets on restart).
 
 | Plugin | Source | Content |
 |--------|--------|---------|
@@ -59,21 +73,31 @@ Many skills and plugins are re-packaged and pre-installed in the image and avail
 | `aas-full` | antigravity | all 1,273+ skills |
 | *(33 more aas-* bundles)* | antigravity | 5-8 skills each |
 
-Set `ENABLE_PLUGINS` to a space-separated list of plugin names to select which plugins are enabled at startup (default: `sc`):
+Enable plugins at startup with the `ENABLE_PLUGINS` env var (default: `sc`):
 
 ```bash
 ENABLE_PLUGINS="aas-essentials aas-web-wizard" claude1
 ```
 
+## Env variables
+
+- `ANTHROPIC_API_KEY` — Anthropic API key passed into the container
+- `CLAUDE_IMAGE` — Docker image to use (default: `ghcr.io/gw0/docker-claude-code:main`)
+- `CLAUDE_PROFILES` — Space-separated profile names for alias generation (default: `claude1 claude2 claudeapi`)
+- `ENABLE_PLUGINS` — Space-separated plugin names to enable at startup (default: `sc`)
+- `FORCE_RESET_SESSIONS` — Set to `1` to wipe sessions/cache on container start
+- `SKIP_SECURITY_SCAN` — Set to `1` to skip AgentShield and unicode scans
+- `DOCKER_HOST` — Docker socket URL, e.g. for remote dev environments
+
 ## Remote dev environment
 
-Local Claude will edit files locally and execute docker exec commands in the remote dev environment.
+Claude runs locally, edits files in the local workspace, but executes commands in the remote dev environment via Docker socket forwarding.
 
-1. Local: Claude container runs locally, edits files in workspace
+1. Local: Claude container runs locally, edits files in workspace, has access to local port (set as `DOCKER_HOST`)
 2. Mutagen: Syncs workspace files bidirectionally (`local workspace <-> remote workspace`)
-2. Mutagen: Forwards restricted remote Docker socket (`local port -> docker-proxy`)
-3. Remote: Exposes restricted remote Docker socket (`docker-proxy -> remote Docker socket`)
-3. Remote: Claude executes docker exec commands that run in dev-container (`docker exec -> -> dev-container`)
+3. Mutagen: Forwards local connections to remote restricted Docker socket (`local port -> remote dev-docker-proxy`)
+4. Remote: Restrict that only EXEC commands get to remote Docker socket (`remote dev-docker-proxy -> remote Docker socket`)
+5. Remote: Claude executes docker exec commands that run in remote dev-container (`docker exec -> ... -> dev-container`)
 
 Install dependencies:
 
@@ -119,4 +143,4 @@ docker run -it --rm \
 
 Copyright &copy; 2025-2026 *gw0* [<http://gw.tnode.com/>] &lt;<gw.2026@ena.one>&gt;
 
-All code is licensed under the GNU Affero General Public License 3.0+ (`AGPL-3.0-or-later`). Note that it is mandatory to make all modifications and complete source code publicly available to any user.
+All code is licensed under the GNU Affero General Public License 3.0+ (`AGPL-3.0-or-later`). All modifications and complete source code must be made publicly available to any user.
