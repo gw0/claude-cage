@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Renovate
-        uses: renovatebot/github-action@v46.1.5
+        uses: renovatebot/github-action@abd08c7549b2a864af5df4a2e369c43f035a6a9d # v46.1.5
         env:
           RENOVATE_GIT_AUTHOR: "gw0-bot <gw0-bot@users.noreply.github.com>"
           RENOVATE_REPOSITORIES: ${{ github.repository }}
