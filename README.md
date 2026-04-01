@@ -1,8 +1,8 @@
-# claude-cage - Containerized Claude Code
+# claude-cage - Claude Code Container Sandbox
 
-Run Claude Code in an isolated Docker container with per-profile state, set of pre-installed plugins and skills, and support for remote dev environments. A single shell alias is all it takes.
+Run Claude Code in an isolated Docker container with per-profile state, security hardening, a set of pre-installed plugins and skills, and support for remote dev environments. A single shell alias is all it takes.
 
-- **Security isolation**: Non-root user, all capabilities dropped, startup security scans (AgentShield + unicode), audit log at `~/.claude/audit-log.jsonl`
+- **Security isolation**: AI agent sandbox via non-root user, all capabilities dropped, startup security scans (AgentShield + unicode), audit log at `~/.claude/audit-log.jsonl`
 - **Multi-profile support**: Per-profile auth state and history in `~/.claude-<profile>`, separate work and personal accounts, mix subscription and API key billing
 - **Plugins and skills**: SuperClaude, claude-skills, codemap, and 33+ antigravity-awesome-skills bundles pre-installed
 - **Remote dev support**: Mutagen bidirectional sync + Docker socket forwarding for remote execution
@@ -22,7 +22,7 @@ docker pull ghcr.io/gw0/claude-cage:main
 For shell integration update `~/.bashrc` (provide profile names, replace `/path/to`):
 
 ```bash
-echo "CLAUDE_PROFILES='claude1 claude2 claudeapi'" >> ~/.bashrc
+echo "CLAUDE_PROFILES='cc1 ccpersonal claudeapi'" >> ~/.bashrc
 echo "source /path/to/claude-aliases.bashrc" >> ~/.bashrc
 
 source ~/.bashrc
@@ -41,18 +41,18 @@ All extra arguments pass through to `claude` directly (e.g. `-p "prompt"`, `--mo
 ```bash
 # run interactive mode:
 cd ~/my-project
-claude1
+cc1
 
 # or advisor/no-file-access mode:
-claude2-advisor
+ccpersonal-advisor
 
 # or yolo/dangerously-skip-permissions mode with prompt:
-claudeapi-yolo -p "Please review latest changes and fix issues"
+ccapi-yolo -p "Please review latest changes and fix issues"
 
 # or manually (expert):
 cd ~/my-project
 docker run -it --rm \
-  -v ${HOME}/.claude-claude1:/home/agent/.claude \
+  -v ${HOME}/.claude-cc1:/home/agent/.claude \
   -v ${PWD}:/workspace/$(basename ${PWD}):rslave \
   -w /workspace/$(basename ${PWD}) \
   ghcr.io/gw0/claude-cage:main claude
@@ -99,14 +99,14 @@ Plugins and skills come pre-installed in the image and managed via Claude Code's
 Enable plugins at startup with the `ENABLE_PLUGINS` env var (default: `sc codemap`):
 
 ```bash
-ENABLE_PLUGINS="aas-essentials aas-web-wizard" claude1
+ENABLE_PLUGINS="aas-essentials aas-web-wizard" cc1
 ```
 
 ## Env variables
 
 - `ANTHROPIC_API_KEY` — Anthropic API key passed into the container, can override a subscription profile with API key billing
 - `CLAUDE_IMAGE` — Docker image to use (default: `ghcr.io/gw0/claude-cage:main`)
-- `CLAUDE_PROFILES` — Space-separated profile names for alias generation (default: `claude1 claude2 claudeapi`)
+- `CLAUDE_PROFILES` — Space-separated profile names for alias generation (default: `cc1 cc2 ccapi`)
 - `ENABLE_PLUGINS` — Space-separated plugin names to enable at startup (default: `sc codemap`)
 - `FORCE_RESET_SESSIONS` — Set to `1` to wipe sessions/cache on container start
 - `SKIP_SECURITY_SCAN` — Set to `1` to skip AgentShield and unicode scans
@@ -148,18 +148,7 @@ Run local Claude with remote execution:
 ```bash
 # with shell integration
 cd ~/my-project
-DOCKER_HOST=tcp://127.0.0.1:2375 claude1
-
-# manually
-cd ~/my-project
-docker run -it --rm \
-  -v ${HOME}/.claude-claude1:/home/agent/.claude \
-  -e DOCKER_HOST=tcp://127.0.0.1:2375 \
-  --net host \
-  --cap-drop ALL \
-  -v ${PWD}:/workspace/$(basename ${PWD}):rslave \
-  -w /workspace/$(basename ${PWD}) \
-  ghcr.io/gw0/claude-cage:main claude
+DOCKER_HOST=tcp://127.0.0.1:2375 cc1
 ```
 
 ## License

@@ -4,7 +4,7 @@
 #   echo 'source /path/to/claude-aliases.bashrc' >> ~/.bashrc
 
 CLAUDE_IMAGE=${CLAUDE_IMAGE:-ghcr.io/gw0/claude-cage:main}
-CLAUDE_PROFILES=${CLAUDE_PROFILES:-claude1 claude2 claudeapi}
+CLAUDE_PROFILES=${CLAUDE_PROFILES:-cc1 cc2 ccapi}
 
 _claude_run() {
   local profile="$1"; shift
