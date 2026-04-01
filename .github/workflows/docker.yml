@@ -36,17 +36,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Determine metadata ghcr.io/gw0/docker-claude-code
+      - name: Determine metadata ghcr.io/gw0/claude-cage
         id: meta
         uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6
         with:
           images: |
-            ghcr.io/gw0/docker-claude-code
+            ghcr.io/gw0/claude-cage
           labels: |
-            org.opencontainers.image.title=gw0/docker-claude-code
+            org.opencontainers.image.title=gw0/claude-cage
             org.opencontainers.image.description=Containerized Claude Code Docker image
 
-      - name: Build and push ghcr.io/gw0/docker-claude-code
+      - name: Build and push ghcr.io/gw0/claude-cage
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7
         with:
           file: Dockerfile
@@ -56,13 +56,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Prune old ghcr.io/gw0/docker-claude-code:pr-*
+      - name: Prune old ghcr.io/gw0/claude-cage:pr-*
         uses: vlaurin/action-ghcr-prune@0cf7d39f88546edd31965acba78cdcb0be14d641 # v0.6.0
         continue-on-error: true
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           organization: gw0
-          container: docker-claude-code
+          container: claude-cage
           keep-younger-than: 7 # days
           keep-last: 2
           prune-untagged: true

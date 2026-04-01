@@ -1,4 +1,4 @@
-# Containerized Claude Code with multi-profile support
+# claude-cage - Containerized Claude Code
 
 Run Claude Code in an isolated Docker container with per-profile state, set of pre-installed plugins and skills, and support for remote dev environments. A single shell alias is all it takes.
 
@@ -12,9 +12,9 @@ Run Claude Code in an isolated Docker container with per-profile state, set of p
 ## Build
 
 ```bash
-docker build -t claude .
+docker build -t claude-cage .
 # or pull latest:
-docker pull ghcr.io/gw0/docker-claude-code:main
+docker pull ghcr.io/gw0/claude-cage:main
 ```
 
 ## Install
@@ -55,7 +55,7 @@ docker run -it --rm \
   -v ${HOME}/.claude-claude1:/home/agent/.claude \
   -v ${PWD}:/workspace/$(basename ${PWD}):rslave \
   -w /workspace/$(basename ${PWD}) \
-  ghcr.io/gw0/docker-claude-code:main claude
+  ghcr.io/gw0/claude-cage:main claude
 ```
 
 ## Plugins and skills
@@ -105,7 +105,7 @@ ENABLE_PLUGINS="aas-essentials aas-web-wizard" claude1
 ## Env variables
 
 - `ANTHROPIC_API_KEY` — Anthropic API key passed into the container, can override a subscription profile with API key billing
-- `CLAUDE_IMAGE` — Docker image to use (default: `ghcr.io/gw0/docker-claude-code:main`)
+- `CLAUDE_IMAGE` — Docker image to use (default: `ghcr.io/gw0/claude-cage:main`)
 - `CLAUDE_PROFILES` — Space-separated profile names for alias generation (default: `claude1 claude2 claudeapi`)
 - `ENABLE_PLUGINS` — Space-separated plugin names to enable at startup (default: `sc codemap`)
 - `FORCE_RESET_SESSIONS` — Set to `1` to wipe sessions/cache on container start
@@ -159,7 +159,7 @@ docker run -it --rm \
   --cap-drop ALL \
   -v ${PWD}:/workspace/$(basename ${PWD}):rslave \
   -w /workspace/$(basename ${PWD}) \
-  ghcr.io/gw0/docker-claude-code:main claude
+  ghcr.io/gw0/claude-cage:main claude
 ```
 
 ## License
