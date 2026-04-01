@@ -1,6 +1,16 @@
 #!/bin/bash
 # Docker entrypoint that sources bashrc
 
+# Map current arbitrary UID/GID to "agent" so NSS resolution works
+if ! getent passwd "$(id -u)" &>/dev/null; then
+  export NSS_WRAPPER_PASSWD=/tmp/passwd
+  export NSS_WRAPPER_GROUP=/tmp/group
+  echo "agent:x:$(id -u):$(id -g):agent:/home/agent:/bin/bash" >${NSS_WRAPPER_PASSWD}
+  echo "agent:x:$(id -g):" >${NSS_WRAPPER_GROUP}
+  export LD_PRELOAD=$(ls -1 /usr/lib/*/libnss_wrapper.so | head -1)
+fi
+
+# Source .bashrc
 [[ -f ~/.bashrc ]] && source ~/.bashrc
 
 # Initialize claude env
