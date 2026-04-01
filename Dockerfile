@@ -57,6 +57,7 @@ RUN apt-get update -qq \
     ripgrep \
     xxd \
     # system
+    libnss-wrapper \
     unattended-upgrades \
  && curl -sSLo /etc/apt/keyrings/docker.asc https://download.docker.com/linux/debian/gpg \
  && echo "deb [signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable" | tee /etc/apt/sources.list.d/docker.list \
