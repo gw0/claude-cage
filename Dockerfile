@@ -16,6 +16,7 @@ ENV TZ=Etc/UTC
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 RUN apt-get update -qq \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
         # essentials
         ca-certificates \
