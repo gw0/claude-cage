@@ -1,6 +1,7 @@
 {
   "permissions": {
     "defaultMode": "plan",
+    "skipDangerousModePermissionPrompt": true,
     "allow": [
       "Bash(date*)", "Bash(ls*)", "Bash(mkdir*)", "Bash(wc*)",
       "Bash(sort*)", "Bash(tr*)", "Bash(cat*)", "Bash(head*)",

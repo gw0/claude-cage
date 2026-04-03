@@ -31,6 +31,6 @@ for profile in ${CLAUDE_PROFILES}; do
   mkdir -vp ${HOME}/.claude-${profile}
   alias ${profile}="_claude_run ${profile}"
   alias ${profile}-yolo="DISABLE_SECURITY_SCAN=1 _claude_run ${profile} --allow-dangerously-skip-permissions"
-  alias ${profile}-advisor="DISABLE_SECURITY_SCAN=1 _claude_run ${profile} --agent advisor"
+  alias ${profile}-advisor="DISABLE_SECURITY_SCAN=1 _claude_run ${profile} --permission-mode default --agent advisor"
 done
 

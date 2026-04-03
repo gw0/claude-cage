@@ -33,7 +33,7 @@ source ~/.bashrc
 Each profile gets three alias modes:
 
 - `<profile>` — standard interactive mode
-- `<profile>-yolo` — skips tool approval prompts (`--allow-dangerously-skip-permissions`)
+- `<profile>-yolo` — skips tool approval prompts (`--dangerously-skip-permissions`)
 - `<profile>-advisor` — read-only advisory mode, no file writes (`--agent advisor`)
 
 All extra arguments pass through to `claude` directly (e.g. `-p "prompt"`, `--model`).
