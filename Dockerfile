@@ -185,6 +185,9 @@ ARG AAS_VERSION=9.4.0
 # https://github.com/AZidan/codemap
 # renovate: datasource=git-refs packageName=https://github.com/AZidan/codemap
 ARG CODEMAP_VERSION=120d018d36809371cf328173e9e0da5e16034693
+# https://github.com/rtk-ai/rtk/releases
+# renovate: datasource=github-releases depName=rtk-ai/rtk
+ARG RTK_VERSION=0.34.3
 
 COPY scripts/install-aas-bundles.py /tmp/install-aas-bundles.py
 
@@ -228,6 +231,17 @@ RUN curl -sSLo superclaude.tar.gz https://github.com/SuperClaude-Org/SuperClaude
     && mv codemap-*/plugin/skills/ /home/${USER}/.claude-shared/plugins-marketplaces/local/plugins/codemap/ \
     && mv codemap-*/plugin/.claude-plugin/ /home/${USER}/.claude-shared/plugins-marketplaces/local/plugins/codemap/ \
     && rm -rf codemap.tar.gz codemap-*/ \
+    # install rtk (CLI + PreToolUse hook)
+    && curl -sSLo rtk.tar.gz "https://github.com/rtk-ai/rtk/releases/download/v${RTK_VERSION}/rtk-x86_64-unknown-linux-musl.tar.gz" \
+    && tar -xzf rtk.tar.gz rtk \
+    && mv rtk /usr/local/bin/ \
+    && rm rtk.tar.gz \
+    && curl -sSLo rtk-src.tar.gz "https://github.com/rtk-ai/rtk/archive/refs/tags/v${RTK_VERSION}.tar.gz" \
+    && mkdir -p /home/${USER}/.claude-shared/hooks \
+    && tar --wildcards -xzf rtk-src.tar.gz 'rtk-*/hooks/claude/rtk-rewrite.sh' \
+    && mv rtk-*/hooks/claude/rtk-rewrite.sh /home/${USER}/.claude-shared/hooks/ \
+    && chmod +x /home/${USER}/.claude-shared/hooks/rtk-rewrite.sh \
+    && rm -rf rtk-src.tar.gz \
     # generate local marketplace.json from all installed plugin.json files
     && mkdir -p /home/${USER}/.claude-shared/plugins-marketplaces/local/.claude-plugin \
     && jq -s '{"$schema":"https://anthropic.com/claude-code/marketplace.schema.json", \

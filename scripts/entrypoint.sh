@@ -46,7 +46,7 @@ done
 for arg in "$@"; do
   case "${arg}" in
   -p | --print | -h | --help | -v | --version | agents | auth | doctor | install | mcp | plugin | plugins | setup-token | update | upgrade)
-    SKIP_SECURITY_SCAN=1
+    DISABLE_SECURITY_SCAN=1
     break
     ;;
   *) ;;
@@ -54,7 +54,7 @@ for arg in "$@"; do
 done
 unset arg
 
-if [[ ! "${SKIP_SECURITY_SCAN:-}" =~ ^[1YyTt]$ ]]; then
+if [[ ! "${DISABLE_SECURITY_SCAN:-}" =~ ^[1YyTt]$ ]]; then
   # AgentShield security scan (non-blocking)
   agentshield scan --path ~/.claude/ --format terminal || true
   if [[ -d ".claude" ]]; then

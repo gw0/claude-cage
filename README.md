@@ -3,7 +3,7 @@
 Run Claude Code in an isolated Docker container with per-profile state, security hardening, a set of pre-installed plugins and skills, and support for remote dev environments. A single shell alias is all it takes.
 
 - **Security isolation**: AI agent sandbox via non-root user, all capabilities dropped, startup security scans (AgentShield + unicode), audit log at `~/.claude/audit-log.jsonl`
-- **Multi-profile support**: Per-profile auth state and history in `~/.claude-<profile>`, separate work and personal accounts, mix subscription and API key billing
+- **Multi-profile support**: Per-profile auth state and history in `~/.claude-<profile>`, separate work and personal accounts, mix subscription and API key billing, optimized token usage
 - **Plugins and skills**: SuperClaude, claude-skills, codemap, and 33+ antigravity-awesome-skills bundles pre-installed
 - **Remote dev support**: Mutagen bidirectional sync + Docker socket forwarding for remote execution
 - **Minimal by design**: A shell alias script and a Dockerfile, no dependencies beyond Docker, easy to read and modify
@@ -109,7 +109,8 @@ ENABLE_PLUGINS="aas-essentials aas-web-wizard" cc1
 - `CLAUDE_PROFILES` — Space-separated profile names for alias generation (default: `cc1 cc2 ccapi`)
 - `ENABLE_PLUGINS` — Space-separated plugin names to enable at startup (default: `sc codemap`)
 - `FORCE_RESET_SESSIONS` — Set to `1` to wipe sessions/cache on container start
-- `SKIP_SECURITY_SCAN` — Set to `1` to skip AgentShield and unicode scans
+- `DISABLE_SECURITY_SCAN` — Set to `1` to skip [AgentShield](https://github.com/affaan-m/agentshield) and unicode scans
+- `DISABLE_RTK` — Set to `1` to disable [RTK](https://github.com/rtk-ai/rtk) token compression
 - `DOCKER_HOST` — Docker socket URL, e.g. for remote dev environments
 
 ## Remote dev environment

@@ -15,7 +15,8 @@ _claude_run() {
     -e CLAUDE_PROFILE="${profile}" \
     -e ENABLE_PLUGINS="${ENABLE_PLUGINS:-}" \
     -e FORCE_RESET_SESSIONS="${FORCE_RESET_SESSIONS:-}" \
-    -e SKIP_SECURITY_SCAN="${SKIP_SECURITY_SCAN:-}" \
+    -e DISABLE_SECURITY_SCAN="${DISABLE_SECURITY_SCAN:-}" \
+    -e DISABLE_RTK="${DISABLE_RTK:-}" \
     -e DOCKER_HOST="${DOCKER_HOST:-}" \
     --net host \
     --cap-drop ALL \
@@ -29,7 +30,7 @@ _claude_run() {
 for profile in ${CLAUDE_PROFILES}; do
   mkdir -vp ${HOME}/.claude-${profile}
   alias ${profile}="_claude_run ${profile}"
-  alias ${profile}-yolo="SKIP_SECURITY_SCAN=1 _claude_run ${profile} --allow-dangerously-skip-permissions"
-  alias ${profile}-advisor="SKIP_SECURITY_SCAN=1 _claude_run ${profile} --agent advisor"
+  alias ${profile}-yolo="DISABLE_SECURITY_SCAN=1 _claude_run ${profile} --allow-dangerously-skip-permissions"
+  alias ${profile}-advisor="DISABLE_SECURITY_SCAN=1 _claude_run ${profile} --agent advisor"
 done
 
