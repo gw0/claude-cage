@@ -83,10 +83,10 @@ RUN apt-get update -qq \
 ##
 # https://www.npmjs.com/package/@anthropic-ai/claude-code/v/latest
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-ARG CLAUDE_VERSION=2.1.90
+ARG CLAUDE_VERSION=2.1.91
 # https://github.com/Owloops/claude-powerline/releases
 # renovate: datasource=npm depName=@owloops/claude-powerline
-ARG CLAUDE_POWERLINE_VERSION=1.21.1
+ARG CLAUDE_POWERLINE_VERSION=1.21.2
 # https://github.com/affaan-m/agentshield/releases
 # renovate: datasource=npm depName=ecc-agentshield
 ARG AGENTSHIELD_VERSION=1.4.0
